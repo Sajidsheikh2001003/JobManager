@@ -1,0 +1,184 @@
+﻿@using JobManager.ViewModels;
+@model AddJobViewModel
+@{
+    Layout = "_LayoutAdmin";
+    int i = 1;
+    int s = 1;
+    Layout="_LayoutAdmin";
+}
+
+
+<!--JOB CONTROLLER INDEX PAGE-->
+
+@section Head{
+    <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Add
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Job" asp-action="Add" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Upload Document in PDF Only</label>
+                        <input asp-for="File" class="form-control" type="file">
+                        <span asp-validation-for="File" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" asp-for="Text" placeholder="Leave a comment here"></textarea>
+
+                        <label asp-for="Text"> </label>
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    @*<div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>*@
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div asp-validation-summary=All class="text-danger"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div asp-validation-summary=All class="text-danger"></div>
+
+
+
+<h2>Unpicked Jobs</h2>
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Job Title</th>
+            <th>Document</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.JobsList.Where(s => s.IsCompleted == 0).ToList())
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@item.Text</td>
+                <td>
+                    <a href="@item.FilePath">
+                        View Document
+                    </a>
+                </td>
+                <td>
+                    <form method="post">
+                        <button type="submit" class="btn btn-outline-danger"
+                                onclick="return confirm('Are you sure you want to delete')" asp-controller="Job" asp-action="Delete" asp-route-Id="@item.Id">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+<h2>Picked Jobs / Completed Job</h2>
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Job Title</th>
+            <th>IsCompleted</th>
+            <th>Completed On</th>
+            <th>Completed By</th>
+            <th>Document</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.JobsList.Where(s => s.IsCompleted == 1 || s.IsCompleted == 2).ToList())
+        {
+            <tr>
+                <td>@(s++)</td>
+                <td>@item.Text</td>
+                <td>@(((JobStatus)item.IsCompleted).ToString())</td>
+                <td>@item.CompletedOn</td>
+                <td>@item.UserName</td>
+                <td>
+                    <a href="@item.FilePath">
+                        View Document
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+@section Scripts{
+
+
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @* Above reference to be deleted *@
+
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        MenuChange(1);
+        SubMenuAdministration(3);
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false
+                //,"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            //$('#example2').DataTable({
+            //    "paging": true,
+            //    "lengthChange": false,
+            //    "searching": false,
+            //    "ordering": true,
+            //    "info": true,
+            //    "autoWidth": false,
+            //    "responsive": true,
+            //});
+        });
+    </script>
+
+
+
+
+
+    }

@@ -1,0 +1,125 @@
+﻿@using JobManager.Data;
+@using JobManager.ViewModels;
+@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<JobListViewModel>
+@inject UserManager<ApplicationUser> userManager
+
+
+@{
+
+    var user = await userManager.GetUserAsync(User);
+    var userId = user.Id;
+    int i = 1;
+    int s = 1;
+    int j = 1;
+}
+
+
+
+
+<h1> List of Jobs </h1>
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Job Title</th>
+
+            <th>Documents</th>
+
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model.Where(s => s.IsCompleted == 0 || s.UserId == null).ToList())
+        {
+            <tr>
+
+                <td>@(i++)</td>
+                <td>@item.JobTitle</td>
+
+                <td>
+                    <a href="@item.FilePath" target="_blank">View Documents</a>
+                </td>
+                <td>
+                    <form method="post">
+                        <button type="submit" class="btn btn-outline-info" asp-controller="Home" asp-action="PickJob" asp-route-Id="@item.Id"><i class="icon-trash"></i>Pick Job</button>
+                    </form>
+
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+
+
+
+<h1>Picked Job</h1>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Job Title</th>
+            <th>Documents</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(s => s.IsCompleted == 1 && s.UserId == userId).ToList())
+        {
+            <tr>
+
+                <td>@(s++)</td>
+                <td>@item.JobTitle</td>
+                <td>
+                    <a href="@item.FilePath" target="_blank">View Documents</a>
+                </td>
+                <td>
+                    <form method="post">
+                        <button type="submit" class="btn btn-outline-danger" asp-controller="Home" asp-action="UnPickedJob" asp-route-Id="@item.Id"><i class="icon-trash"></i>UnPick Job</button>
+                        <a type="submit" class="btn btn-outline-success" asp-controller="Home" asp-action="Complete" asp-route-Id="@item.Id"><i class="icon-trash"></i>Completed</a>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h1>Completed Jobs</h1>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Job Title</th>
+
+            <th>Documents</th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var item in Model.Where(s =>s.IsCompleted == 2 && s.UserId == userId).ToList())
+        {
+            <tr>
+
+                <td>@(j++)</td>
+                <td>@item.JobTitle</td>
+
+                <td>
+                    <a href="@item.FilePath" target="_blank">View Documents</a>
+                </td>
+            </tr>            
+        }
+    </tbody>
+</table>

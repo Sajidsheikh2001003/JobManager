@@ -1,0 +1,40 @@
+﻿@using ViewModels;
+@model List<UserRoleViewModel>
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Edit Users In Role";
+    var roleId = ViewBag.roleId;
+    var roleName = ViewBag.roleName;
+}
+
+<form method="post">
+    <div class="card card-blue">
+        <div class="card-header">
+            <h3 class="card-title">Add or remove users from this role: @roleName</h3>
+        </div>
+        <div class="card-body">
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="hidden" asp-for="@Model[i].UserId" />
+                        <input type="hidden" asp-for="@Model[i].UserName" />
+                        <input asp-for="@Model[i].IsSelected" class="custom-control-input">
+                        <label class="custom-control-label" asp-for="@Model[i].IsSelected">@Model[i].FullName - @Model[i].UserName</label>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <input type="submit" class="btn btn-outline-success" value="Update" />
+            <a class="btn btn-default" asp-action="EditRole" asp-route-Id="@roleId">Cancel</a>
+        </div>
+    </div>
+</form>
+@section Scripts{
+    <script type="text/javascript">
+        MenuChange(1);
+        SubMenuAdministration(3);
+    </script>
+}

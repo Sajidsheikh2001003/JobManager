@@ -1,0 +1,155 @@
+﻿@using JobManager.ViewModels;
+@model IEnumerable<JobListViewModel>
+@{
+    int i = 1;
+    int s = 1;
+}
+
+
+   @*  Approved = 1,
+        Pending = 2,
+        Completed = 3*@
+
+        <h1> Datable </h1>
+  <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th> Text</th>
+                <th>IsCompleted</th>
+                <th>Documents</th>
+
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            @if(item.IsCompleted ==1)
+            {
+                <tr>
+
+                    <td>@(i++)</td>
+                    <td>@item.JobTitle</td>
+                    <td>@(((JobStatus)item.IsCompleted).ToString())</td>
+                    <td>
+                        <a href="@item.FilePath" target="_blank">View Documents</a>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-outline-info" asp-controller="Job" asp-action="Delete" asp-route-Id="@item.Id"><i class="icon-trash"></i>Pick Jobs</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            
+
+
+        }
+
+      
+        <tr>
+
+            <td colspan="5">No record</td>
+        </tr>
+      
+        </tbody>
+    </table>
+
+
+
+
+    <h1>Pick Job</h1>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Text</th>
+            <th>IsCompleted</th>
+            <th>Documents</th>
+
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IsCompleted == 2)
+            {
+                <tr>
+
+                    <td>@(s++)</td>
+                    <td>@item.JobTitle</td>
+                    <td>@(((JobStatus)item.IsCompleted).ToString())</td>
+                    <td>
+                        <a href="@item.FilePath" target="_blank">View Documents</a>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-outline-danger" asp-controller="Job" asp-action="Delete" asp-route-Id="@item.Id"><i class="icon-trash"></i>UnPick Job</button>
+                            <a type="submit" class="btn btn-outline-success" asp-controller="Job" asp-action="Delete" asp-route-Id="@item.Id"><i class="icon-trash"></i>Complete</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+            <td>No record</td>
+                </tr>
+            }
+
+
+        }
+    </tbody>
+</table>
+
+
+                        <h1>Completed</h1>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th> Text</th>
+            <th>IsCompleted</th>
+            <th>Documents</th>
+
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IsCompleted == 3)
+            {
+                <tr>
+
+                    <td>@(s++)</td>
+                    <td>@item.JobTitle</td>
+                    <td>@(((JobStatus)item.IsCompleted).ToString())</td>
+                    <td>
+                        <a href="@item.FilePath" target="_blank">View Documents</a>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-outline-danger" asp-controller="Job" asp-action="Delete" asp-route-Id="@item.Id"><i class="icon-trash"></i>UnPick Job</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+           
+
+        }
+     
+        <tr>
+            <td colspan="5">No record</td>
+        </tr>
+     
+
+    </tbody>
+</table>

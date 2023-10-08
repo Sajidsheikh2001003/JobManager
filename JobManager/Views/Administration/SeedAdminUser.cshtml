@@ -1,0 +1,84 @@
+﻿@using ViewModels;
+@model SeedAdminUserViewModel 
+@{
+    Layout = "_LayoutAdmin";
+    ViewData["Title"] = "Seed Admin User";
+}
+
+@*<div class="login-box">
+    <div class="login-logo">
+            <a href="../../index2.html"><b>Admin</b>LTE</a>
+        </div>
+   
+
+
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg text-center">Sign in to start your session</p>
+            <form asp-controller="Administration" asp-action="SeedAdminUser" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="input-group mb-3">
+     
+                    <label >Email</label>
+                    <input type="email" class="form-control" asp-for="Email">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Email address</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Enter Your Email">
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" asp-for="Password">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+                  <div class="mb-3">
+                    <label  class="form-label">Password</label>
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Enter Your Password">
+                </div>
+
+
+                <div class="row">
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>*@
+
+<form asp-controller="Administration" asp-action="SeedAdminUser" method="post">
+
+<div class="container">
+    <p class="login-box-msg text-justify"><strong>Sign in to start configuration</strong></p>
+    <div class="row col-md-8 justify-content-md-center">
+        <div class="col-md-6 mt-3">
+            <div>
+                <label class="form-label">Email address</label>
+                <input type="email" class="form-control" asp-for="Email" placeholder="Enter Your Email">
+            </div>
+        </div>
+        <div class="col-md-6 mt-3">
+            <div>
+                <label class="form-label">Enter password</label>
+                <input type="password" class="form-control" asp-for="Password" placeholder="Enter Your password">
+            </div>
+        </div>
+         <div class="col-6 mt-3">
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    </div>
+        
+    </div>
+</div>
+</form>

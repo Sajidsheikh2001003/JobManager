@@ -1,0 +1,45 @@
+﻿@using ViewModels;
+@model CreateRoleViewModel
+@{
+    ViewData["Title"] = "CreateRole";
+    Layout = "_LayoutAdmin";
+
+}
+
+
+
+<div class="card">
+    <div class="card-body register-card-body">
+        <p class="login-box-msg">Create New Role</p>
+
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <span class="text-danger" asp-validation-for="RoleName"></span>
+            <div class="input-group mb-3">
+                <input class="form-control" asp-for="RoleName">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-male"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block">Create Role</button>
+                    <a asp-controller="Administration" asp-action="ListRoles" class="btn btn-primary btn-block">Back</a>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+    <!-- /.form-box -->
+</div><!-- /.card -->
+@section Scripts{
+
+    <script>
+        SubMenuAdministration(2);
+        MenuChange(1);
+        
+    </script>
+
+}
